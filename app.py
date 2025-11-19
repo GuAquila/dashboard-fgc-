@@ -108,24 +108,8 @@ try:
         with col2:
             st.metric("Posição Filtrada", formatar_reais(df_filtrado['Posição Total'].sum()))
         
-        # Gráfico de barras: Top 10 clientes
-        st.subheader("📈 Top 10 Maiores Posições")
-        top10 = df_filtrado.head(10)
-        
-        # Cria o gráfico
-        fig = px.bar(
-            top10,
-            x='Cliente',  # Eixo X: Cliente
-            y='Posição Total',  # Eixo Y: Valor
-            color='Emissor',  # Cor por emissor
-            title='Top 10 Clientes por Posição',
-            labels={'Posição Total': 'Posição (R$)', 'Cliente': 'Cliente'}
-        )
-        fig.update_layout(height=500)  # Altura do gráfico
-        st.plotly_chart(fig, use_container_width=True)
-        
-        # Tabela detalhada
-        st.subheader("📋 Detalhamento Completo")
+        # Tabela detalhada - TODOS os clientes
+        st.subheader("📋 Todos os Clientes com Posição ≥ R$ 250.000,00")
         
         # Formata a coluna de valores para exibição
         df_exibicao = df_filtrado.copy()
@@ -221,11 +205,16 @@ try:
             hide_index=True
         )
         
-        # Alerta para posições críticas (muito próximas do limite)
+        # Alerta para posições críticas (próximas ao limite de 250k)
         st.subheader("⚠️ Posições Críticas")
-        st.info("Clientes próximos ao limite de R$ 250.000,00")
+        st.info("Clientes próximos ao limite de R$ 250.000,00 (entre R$ 250k e R$ 280k)")
         
-        df_critico = df_assessor[df_assessor['Posição Total'] < 300000].copy()
+        # Filtra clientes que estão entre 250k e 280k (acabaram de ultrapassar)
+        df_critico = df_assessor[
+            (df_assessor['Posição Total'] >= 250000) & 
+            (df_assessor['Posição Total'] <= 280000)
+        ].copy()
+        
         if len(df_critico) > 0:
             df_critico['Posição Total'] = df_critico['Posição Total'].apply(formatar_reais)
             st.dataframe(
