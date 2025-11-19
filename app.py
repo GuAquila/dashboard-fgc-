@@ -9,7 +9,7 @@ import plotly.express as px  # Para criar gráficos interativos
 
 # Configuração da página - SEMPRE deve ser a primeira coisa
 st.set_page_config(
-    page_title="Dashboard FGC",  # Nome que aparece na aba do navegador
+    page_title="Dashboard FGC - Tauari",  # Nome que aparece na aba do navegador
     page_icon="📊",  # Ícone da aba
     layout="wide"  # Usa a tela toda
 )
@@ -54,7 +54,7 @@ def formatar_reais(valor):
 # ========================================
 # TÍTULO DO DASHBOARD
 # ========================================
-st.title("📊 Dashboard de Alocação FGC")
+st.title("📊 Dashboard de Alocação FGC - Tauari")
 st.markdown("---")  # Linha divisória
 
 # ========================================
